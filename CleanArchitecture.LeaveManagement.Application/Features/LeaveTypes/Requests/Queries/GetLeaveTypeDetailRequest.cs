@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.LeaveManagement.Application.DTOs.Common;
+﻿using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveType;
 using MediatR;
 using System;
 using System.Collections.Generic;

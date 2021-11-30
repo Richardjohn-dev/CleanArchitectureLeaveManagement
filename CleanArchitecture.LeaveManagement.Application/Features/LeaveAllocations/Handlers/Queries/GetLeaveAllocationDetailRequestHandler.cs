@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CleanArchitecture.LeaveManagement.Application.DTOs.Common;
+using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveAllocation;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Queries;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
 using MediatR;

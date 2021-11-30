@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.LeaveManagement.Application.DTOs.Common;
+using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
