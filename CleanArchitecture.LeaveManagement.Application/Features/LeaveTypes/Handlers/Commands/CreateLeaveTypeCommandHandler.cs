@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveType.Validators;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
 using CleanArchitecture.LeaveManagement.Domain;
@@ -25,6 +26,12 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
 
         public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
+            var validator = new CreateLeaveTypeDtoValidator();
+            var result = await validator.ValidateAsync(request.CreateLeaveTypeDto, cancellationToken);
+
+            if (result.IsValid == false)
+                throw new Exception();
+
             var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);
             leaveType = await _leaveTypeRepository.AddAsync(leaveType);
             return leaveType.Id;
