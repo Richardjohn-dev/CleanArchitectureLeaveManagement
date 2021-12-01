@@ -12,7 +12,7 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.R
     {
         // 1 Handler forking based on different scenarios
         public int Id { get; set; }
-        public LeaveRequestDto LeaveRequestDto { get; set; }
+        public UpdateLeaveRequestDto UpdateLeaveRequestDto { get; set; }
         public ChangeLeaveRequestApprovalDto ChangeLeaveRequestApprovalDto { get; set; }
     }
 }

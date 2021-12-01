@@ -25,9 +25,9 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
         {
             var leaveRequest = await _leaveRequestRepository.GetAsync(request.Id);
 
-            if (request.LeaveRequestDto != null)
+            if (request.UpdateLeaveRequestDto != null)
             {
-                _mapper.Map(request.LeaveRequestDto, leaveRequest);
+                _mapper.Map(request.UpdateLeaveRequestDto, leaveRequest);
                 await _leaveRequestRepository.UpdateAsync(leaveRequest);
             }
             else if(request.ChangeLeaveRequestApprovalDto != null)
