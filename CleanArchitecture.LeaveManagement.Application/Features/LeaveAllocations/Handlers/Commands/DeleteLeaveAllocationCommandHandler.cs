@@ -1,5 +1,7 @@
-﻿using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Commands;
+﻿using CleanArchitecture.LeaveManagement.Application.Exceptions;
+using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,9 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocation
         public async Task<Unit> Handle(DeleteLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
             var leaveAllocation = await _leaveAllocationRepository.GetAsync(request.Id);
+            if (leaveAllocation is null)
+                throw new NotFoundException(nameof(LeaveAllocation), request.Id);
+
             await _leaveAllocationRepository.DeleteAsync(leaveAllocation);
             return Unit.Value;
         }

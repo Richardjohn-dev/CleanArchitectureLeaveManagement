@@ -2,6 +2,7 @@
 using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest.Validators;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
             var validationResults = await validator.ValidateAsync(request.UpdateLeaveRequestDto, cancellationToken);
 
             if (validationResults.IsValid == false)
-                throw new Exception();
+                throw new ValidationException(validationResults);
 
             var leaveRequest = await _leaveRequestRepository.GetAsync(request.Id);
 

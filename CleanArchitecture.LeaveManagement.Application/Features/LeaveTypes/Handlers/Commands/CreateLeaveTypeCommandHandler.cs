@@ -2,6 +2,7 @@
 using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveType.Validators;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Application.Exceptions;
 using CleanArchitecture.LeaveManagement.Domain;
 using MediatR;
 using System;
@@ -29,7 +30,7 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
             var validator = new CreateLeaveTypeDtoValidator();          
             var validationResults = await validator.ValidateAsync(request.CreateLeaveTypeDto, cancellationToken);
             if (validationResults.IsValid == false)
-                throw new Exception();
+                throw new ValidationException(validationResults);
 
             var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);
             leaveType = await _leaveTypeRepository.AddAsync(leaveType);
