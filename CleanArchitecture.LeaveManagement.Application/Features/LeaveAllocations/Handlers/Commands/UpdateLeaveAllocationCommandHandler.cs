@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveAllocation.Validators;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
 using MediatR;
@@ -23,8 +24,14 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocation
         }
         public async Task<Unit> Handle(UpdateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
-            var leaveAllocation = await _leaveAllocationRepository.GetAsync(request.LeaveAllocationDto.Id);
-            _mapper.Map(request.LeaveAllocationDto, leaveAllocation);
+            var validator = new UpdateLeaveAllocationDtoValidator(_leaveAllocationRepository);
+            var validationResults = await validator.ValidateAsync(request.UpdateLeaveAllocationDto, cancellationToken);
+
+            if (validationResults.IsValid == false)
+                throw new Exception();
+
+            var leaveAllocation = await _leaveAllocationRepository.GetAsync(request.UpdateLeaveAllocationDto.Id);
+            _mapper.Map(request.UpdateLeaveAllocationDto, leaveAllocation);
 
             await _leaveAllocationRepository.UpdateAsync(leaveAllocation);
 

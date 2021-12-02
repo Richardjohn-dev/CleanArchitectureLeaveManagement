@@ -10,9 +10,9 @@ namespace CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest.Valida
 {
     public class CreateLeaveRequestDtoValidator : AbstractValidator<CreateLeaveRequestDto>
     {
-        private readonly ILeaveAllocationRepository _leaveTypeRepository;
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public CreateLeaveRequestDtoValidator(ILeaveAllocationRepository leaveTypeRepository)
+        public CreateLeaveRequestDtoValidator(ILeaveTypeRepository leaveTypeRepository)
         {
             _leaveTypeRepository = leaveTypeRepository;
             Include(new ILeaveRequestDtoValidator(_leaveTypeRepository));

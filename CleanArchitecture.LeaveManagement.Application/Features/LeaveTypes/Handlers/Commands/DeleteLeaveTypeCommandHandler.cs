@@ -13,9 +13,9 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
 {
     public class DeleteLeaveTypeCommandHandler : IRequestHandler<DeleteLeaveTypeCommand>
     {
-        private readonly ILeaveAllocationRepository _leaveTypeRepository;
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public DeleteLeaveTypeCommandHandler(ILeaveAllocationRepository leaveTypeRepository)
+        public DeleteLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository)
         {
             _leaveTypeRepository = leaveTypeRepository;
         }

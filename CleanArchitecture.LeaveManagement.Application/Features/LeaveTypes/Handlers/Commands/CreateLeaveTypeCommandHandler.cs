@@ -26,10 +26,9 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
 
         public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateLeaveTypeDtoValidator();
-            var result = await validator.ValidateAsync(request.CreateLeaveTypeDto, cancellationToken);
-
-            if (result.IsValid == false)
+            var validator = new CreateLeaveTypeDtoValidator();          
+            var validationResults = await validator.ValidateAsync(request.CreateLeaveTypeDto, cancellationToken);
+            if (validationResults.IsValid == false)
                 throw new Exception();
 
             var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);

@@ -16,19 +16,21 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocation
     public class CreateLeaveAllocationCommandHandler : IRequestHandler<CreateLeaveAllocationCommand, int>
     {
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
 
-        public CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, IMapper mapper)
+        public CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
         {
             _leaveAllocationRepository = leaveAllocationRepository;
+            _leaveTypeRepository = leaveTypeRepository;
             _mapper = mapper;
         }
         public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateLeaveAllocationDtoValidator(_leaveAllocationRepository);
-            var results = await validator.ValidateAsync(request.CreateLeaveAllocationDto, cancellationToken);
+            var validator = new CreateLeaveAllocationDtoValidator(_leaveTypeRepository);
+            var validationResults = await validator.ValidateAsync(request.CreateLeaveAllocationDto, cancellationToken);
 
-            if (results.IsValid == false)
+            if (validationResults.IsValid == false)
                 throw new Exception();
 
             var leaveAllocation = _mapper.Map<LeaveAllocation>(request.CreateLeaveAllocationDto);

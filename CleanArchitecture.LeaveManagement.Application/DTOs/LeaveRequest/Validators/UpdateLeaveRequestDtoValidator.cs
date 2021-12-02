@@ -11,6 +11,7 @@ namespace CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest.Valida
     public class UpdateLeaveRequestDtoValidator : AbstractValidator<UpdateLeaveRequestDto>
     {
         private readonly ILeaveAllocationRepository _leaveTypeRepository;
+        private ILeaveTypeRepository _leaveTypeRepository1;
 
         public UpdateLeaveRequestDtoValidator(ILeaveAllocationRepository leaveTypeRepository)
         {
@@ -18,6 +19,11 @@ namespace CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest.Valida
             Include(new ILeaveRequestDtoValidator(_leaveTypeRepository));
 
             RuleFor(p => p.Id).NotNull().WithMessage("{PropertyName} must be present");
+        }
+
+        public UpdateLeaveRequestDtoValidator(ILeaveTypeRepository leaveTypeRepository1)
+        {
+            _leaveTypeRepository1 = leaveTypeRepository1;
         }
     }
 }
