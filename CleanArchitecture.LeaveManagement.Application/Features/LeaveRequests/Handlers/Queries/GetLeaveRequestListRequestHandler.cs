@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Requests.Queries;
-using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Application.Contracts.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;

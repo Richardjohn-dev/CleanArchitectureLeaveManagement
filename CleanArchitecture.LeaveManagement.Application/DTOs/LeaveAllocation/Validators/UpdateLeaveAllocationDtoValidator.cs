@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+﻿using CleanArchitecture.LeaveManagement.Application.Contracts.Persistence;
 using FluentValidation;
 using System;
 using System.Collections.Generic;

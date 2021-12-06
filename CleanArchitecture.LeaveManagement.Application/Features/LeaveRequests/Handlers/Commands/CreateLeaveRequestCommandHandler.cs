@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest.Validators;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Requests.Commands;
-using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Application.Contracts.Persistence;
 using CleanArchitecture.LeaveManagement.Application.Exceptions;
 using CleanArchitecture.LeaveManagement.Domain;
 using MediatR;

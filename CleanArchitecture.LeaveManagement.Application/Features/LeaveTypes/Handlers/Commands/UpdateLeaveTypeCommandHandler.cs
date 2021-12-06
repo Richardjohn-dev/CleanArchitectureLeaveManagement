@@ -2,7 +2,7 @@
 using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveType.Validators;
 using CleanArchitecture.LeaveManagement.Application.Exceptions;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
-using CleanArchitecture.LeaveManagement.Application.Persistence.Contracts;
+using CleanArchitecture.LeaveManagement.Application.Contracts.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;

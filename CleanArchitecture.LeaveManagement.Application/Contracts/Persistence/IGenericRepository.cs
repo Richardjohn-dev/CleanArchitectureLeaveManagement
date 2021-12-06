@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.LeaveManagement.Application.Persistence.Contracts
+namespace CleanArchitecture.LeaveManagement.Application.Contracts.Persistence
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -12,8 +12,8 @@ namespace CleanArchitecture.LeaveManagement.Application.Persistence.Contracts
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<bool> ExistsAsync(int id);
         Task<T> AddAsync(T entity);
-        Task<T> UpdateAsync(T entity);
-        Task<T> DeleteAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
 
     }
 }
