@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Handlers.Queries
 {
     public class GetLeaveTypeDetailRequestHandler : IRequestHandler<GetLeaveTypeDetailRequest, LeaveTypeDto>
-    {
-        private readonly ILeaveAllocationRepository _leaveTypeRepository;
+    {    
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
 
-        public GetLeaveTypeDetailRequestHandler(ILeaveAllocationRepository leaveTypeRepository, IMapper mapper)
+        public GetLeaveTypeDetailRequestHandler(ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
         {
             _leaveTypeRepository = leaveTypeRepository;
             _mapper = mapper;
