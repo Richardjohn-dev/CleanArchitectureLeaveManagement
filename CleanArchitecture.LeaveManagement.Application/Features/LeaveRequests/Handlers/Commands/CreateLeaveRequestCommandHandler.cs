@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanArchitecture.LeaveManagement.Application.Responses;
+using CleanArchitecture.LeaveManagement.Application.Contracts.Infrastructure;
+using CleanArchitecture.LeaveManagement.Application.Models;
 
 namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Handlers.Commands
 {
@@ -19,34 +21,56 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly ILeaveRequestRepository _leaveRequestRepository;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
-        public CreateLeaveRequestCommandHandler(ILeaveTypeRepository leaveTypeRepository, ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+        public CreateLeaveRequestCommandHandler(
+            ILeaveTypeRepository leaveTypeRepository,
+            ILeaveRequestRepository leaveRequestRepository,
+            IEmailSender emailSender,
+            IMapper mapper)
         {
             _leaveTypeRepository = leaveTypeRepository;
             _leaveRequestRepository = leaveRequestRepository;
+            _emailSender = emailSender;
             _mapper = mapper;
         }
         public async Task<BaseCommandResponse> Handle(CreateLeaveRequestCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
-
             var validator = new CreateLeaveRequestDtoValidator(_leaveTypeRepository);
-            var validationResults = await validator.ValidateAsync(request.CreateLeaveRequestDto, cancellationToken);
+            var validationResult = await validator.ValidateAsync(request.CreateLeaveRequestDto, cancellationToken);
 
-            if (validationResults.IsValid == false)
+            if (validationResult.IsValid == false)
             {
                 response.Success = false;
                 response.Message = "Creation Failed";
-                response.Errors = validationResults.Errors.Select(e => e.ErrorMessage).ToList();
+                response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
             }
 
             var leaveRequest = _mapper.Map<LeaveRequest>(request.CreateLeaveRequestDto);
+
             leaveRequest = await _leaveRequestRepository.AddAsync(leaveRequest);
 
             response.Success = true;
             response.Message = "Creation Successful";
             response.Id = leaveRequest.Id;
+
+            var email = new Email
+            {
+                To = "employee@org.com",
+                Body = $"Your leave request for {request.CreateLeaveRequestDto.StartDate:D} to {request.CreateLeaveRequestDto.EndDate:D} " +
+                $"has been submitted successfully.",
+                Subject = "Leave Request Submitted"
+            };
+            try
+            {
+                await _emailSender.SendEmail(email);
+            }
+            catch (Exception)
+            {
+                //// Log or handle error, but don't throw...
+            }
 
             return response;
         }
