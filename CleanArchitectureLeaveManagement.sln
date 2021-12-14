@@ -17,11 +17,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.LeaveMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.LeaveManagement.Application", "CleanArchitecture.LeaveManagement.Application\CleanArchitecture.LeaveManagement.Application.csproj", "{58D30327-0253-48CA-89E0-68280D29B968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.LeaveManagement.Infrastructure", "CleanArchitecture.LeaveManagement.Infrastructure\CleanArchitecture.LeaveManagement.Infrastructure.csproj", "{222380D2-92C0-4CE4-8CE4-848BB09ED379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.LeaveManagement.Infrastructure", "CleanArchitecture.LeaveManagement.Infrastructure\CleanArchitecture.LeaveManagement.Infrastructure.csproj", "{222380D2-92C0-4CE4-8CE4-848BB09ED379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.LeaveManagement.Persistence", "CleanArchitecture.LeaveManagement.Persistence\CleanArchitecture.LeaveManagement.Persistence.csproj", "{5394E1C7-EAA9-4CD7-8D57-5073882D5DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.LeaveManagement.Persistence", "CleanArchitecture.LeaveManagement.Persistence\CleanArchitecture.LeaveManagement.Persistence.csproj", "{5394E1C7-EAA9-4CD7-8D57-5073882D5DFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.LeaveManagement.Api", "CleanArchitecture.LeaveManagement.Api\CleanArchitecture.LeaveManagement.Api.csproj", "{978AFDDA-5E28-4F1C-B733-23E76D54F38A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.LeaveManagement.Api", "CleanArchitecture.LeaveManagement.Api\CleanArchitecture.LeaveManagement.Api.csproj", "{978AFDDA-5E28-4F1C-B733-23E76D54F38A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.LM.Application.UnitsTests", "CleanArchitecture.LM.Application.UnitsTests\CleanArchitecture.LM.Application.UnitsTests.csproj", "{BBB96E53-E35F-4757-B421-952A834A36C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{27C694DF-7224-489C-84D9-927698121C44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.LeaveManagement.MVC", "CleanArchitecture.LeaveManagement.MVC\CleanArchitecture.LeaveManagement.MVC.csproj", "{832F5C13-0FE8-4941-BB75-19EF5023573D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +55,14 @@ Global
 		{978AFDDA-5E28-4F1C-B733-23E76D54F38A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{978AFDDA-5E28-4F1C-B733-23E76D54F38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{978AFDDA-5E28-4F1C-B733-23E76D54F38A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB96E53-E35F-4757-B421-952A834A36C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB96E53-E35F-4757-B421-952A834A36C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB96E53-E35F-4757-B421-952A834A36C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB96E53-E35F-4757-B421-952A834A36C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{832F5C13-0FE8-4941-BB75-19EF5023573D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832F5C13-0FE8-4941-BB75-19EF5023573D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832F5C13-0FE8-4941-BB75-19EF5023573D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832F5C13-0FE8-4941-BB75-19EF5023573D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +76,9 @@ Global
 		{222380D2-92C0-4CE4-8CE4-848BB09ED379} = {83E41ACC-9E79-4636-8124-5CF527C3B209}
 		{5394E1C7-EAA9-4CD7-8D57-5073882D5DFD} = {83E41ACC-9E79-4636-8124-5CF527C3B209}
 		{978AFDDA-5E28-4F1C-B733-23E76D54F38A} = {65D365E8-675A-4391-B244-E6BD71F207CE}
+		{BBB96E53-E35F-4757-B421-952A834A36C8} = {DF5A85E5-B3F7-464D-9FCF-7FEE0305BBB2}
+		{27C694DF-7224-489C-84D9-927698121C44} = {1D2B2642-A41D-424A-9CED-0A63272AD7E7}
+		{832F5C13-0FE8-4941-BB75-19EF5023573D} = {27C694DF-7224-489C-84D9-927698121C44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B20D41D7-479F-4904-8E42-E97BA646CBA0}
