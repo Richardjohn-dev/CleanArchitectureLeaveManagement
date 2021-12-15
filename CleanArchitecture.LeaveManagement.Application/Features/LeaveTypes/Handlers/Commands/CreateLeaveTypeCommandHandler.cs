@@ -11,10 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchitecture.LeaveManagement.Application.Responses;
 
 namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
 {
-    public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, int>
+    public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, BaseCommandResponse>
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
@@ -25,16 +26,31 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
+            var response = new BaseCommandResponse();
+
             var validator = new CreateLeaveTypeDtoValidator();          
             var validationResults = await validator.ValidateAsync(request.CreateLeaveTypeDto, cancellationToken);
             if (validationResults.IsValid == false)
-                throw new ValidationException(validationResults);
+            {
+                response.Success = false;
+                response.Message = "Creation Failed";
+                response.Errors = validationResults.Errors.Select(q => q.ErrorMessage).ToList();
+                //   throw new ValidationException(validationResults);
+            }
+            else
+            {
+                var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);
+                leaveType = await _leaveTypeRepository.AddAsync(leaveType);
 
-            var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);
-            leaveType = await _leaveTypeRepository.AddAsync(leaveType);
-            return leaveType.Id;
+                response.Success = true;
+                response.Message = "Creation Successful";
+                response.Id = leaveType.Id;
+            }
+
+            return response;
+
         }
     }
 }

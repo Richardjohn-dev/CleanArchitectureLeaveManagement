@@ -1,4 +1,5 @@
 using CleanArchitecture.LeaveManagement.MVC.Services;
+using CleanArchitecture.LeaveManagement.MVC.Services.Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
+using CleanArchitecture.LeaveManagement.MVC.Contracts;
+using HR.LeaveManagement.MVC.Services;
 
 namespace CleanArchitecture.LeaveManagement.MVC
 {
@@ -25,6 +29,9 @@ namespace CleanArchitecture.LeaveManagement.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44355"));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+            services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
             services.AddControllersWithViews();
         }

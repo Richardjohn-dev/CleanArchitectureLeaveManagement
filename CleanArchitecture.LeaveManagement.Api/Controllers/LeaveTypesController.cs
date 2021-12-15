@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CleanArchitecture.LeaveManagement.Application.Responses;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,7 +42,9 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // POST api/<LeaveTypesController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateLeaveTypeDto leaveType)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateLeaveTypeDto leaveType)
         {
             var command = new CreateLeaveTypeCommand { CreateLeaveTypeDto = leaveType };
             var repsonse = await _mediator.Send(command);
@@ -49,7 +52,7 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
         }
 
         // PUT api/<LeaveTypesController>
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult> Put([FromBody] LeaveTypeDto leaveType)
         {
             var command = new UpdateLeaveTypeCommand { LeaveTypeDto = leaveType };
