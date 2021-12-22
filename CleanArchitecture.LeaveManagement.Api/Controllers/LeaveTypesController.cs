@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArchitecture.LeaveManagement.Application.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +16,7 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class LeaveTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,6 +28,7 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // GET: api/<LeaveTypesController>
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<LeaveTypeDto>>> Get()
         {
             var leaveTypes = await _mediator.Send(new GetLeaveTypeListRequest());

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CleanArchitecture.LeaveManagement.Application\CleanArchitecture.LeaveManagement.Application.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.LeaveManagement.Identity\CleanArchitecture.LeaveManagement.Identity.csproj" />
     <ProjectReference Include="..\CleanArchitecture.LeaveManagement.Infrastructure\CleanArchitecture.LeaveManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\CleanArchitecture.LeaveManagement.Persistence\CleanArchitecture.LeaveManagement.Persistence.csproj" />
   </ItemGroup>

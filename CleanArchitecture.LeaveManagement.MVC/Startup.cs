@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using CleanArchitecture.LeaveManagement.MVC.Contracts;
-using HR.LeaveManagement.MVC.Services;
 
 namespace CleanArchitecture.LeaveManagement.MVC
 {
