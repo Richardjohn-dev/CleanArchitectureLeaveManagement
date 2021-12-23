@@ -32,7 +32,7 @@ namespace CleanArchitecture.LeaveManagement.Application.DTOs.LeaveAllocation.Val
                .MustAsync(async (id, token) =>
                {
                    var leaveTypeExists = await _leaveTypeRepository.ExistsAsync(id);
-                   return !leaveTypeExists;
+                   return leaveTypeExists;
                })
               .WithMessage("{PropertyName} does not exist.");
 

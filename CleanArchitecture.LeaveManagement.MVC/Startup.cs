@@ -52,6 +52,7 @@ namespace CleanArchitecture.LeaveManagement.MVC
 
 
             services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+            services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
 
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
             services.AddControllersWithViews();

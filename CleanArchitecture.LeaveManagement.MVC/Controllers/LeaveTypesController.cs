@@ -15,10 +15,12 @@ namespace CleanArchitecture.LeaveManagement.MVC.Controllers
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeService _leaveTypeService;
+        private readonly ILeaveAllocationService _leaveAllocationService;
 
-        public LeaveTypesController(ILeaveTypeService leaveTypeService)
+        public LeaveTypesController(ILeaveTypeService leaveTypeService, ILeaveAllocationService leaveAllocationService)
         {
-            _leaveTypeService = leaveTypeService;
+            this._leaveTypeService = leaveTypeService;
+            this._leaveAllocationService = leaveAllocationService;
         }
         // GET: LeaveTypesController
         public async Task<ActionResult> Index()
@@ -91,27 +93,7 @@ namespace CleanArchitecture.LeaveManagement.MVC.Controllers
             return View(leaveType);
         }
 
-        //// GET: LeaveTypesController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: LeaveTypesController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
@@ -132,6 +114,26 @@ namespace CleanArchitecture.LeaveManagement.MVC.Controllers
             }
 
           return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Allocate(int id)
+        {
+            try
+            {
+                var response = await _leaveAllocationService.CreateLeaveAllocations(id);
+                if (response.Success)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            return BadRequest();
         }
     }
 }

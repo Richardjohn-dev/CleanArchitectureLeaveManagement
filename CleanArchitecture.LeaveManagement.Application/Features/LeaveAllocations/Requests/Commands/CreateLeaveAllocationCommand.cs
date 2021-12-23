@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveAllocation;
+using CleanArchitecture.LeaveManagement.Application.Responses;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Commands
 {
-    public class CreateLeaveAllocationCommand : IRequest<int>
+    public class CreateLeaveAllocationCommand : IRequest<BaseCommandResponse>
     {
         public CreateLeaveAllocationDto CreateLeaveAllocationDto { get; set; }
     }

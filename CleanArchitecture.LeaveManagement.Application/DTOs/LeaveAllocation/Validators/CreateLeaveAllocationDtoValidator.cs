@@ -16,8 +16,14 @@ namespace CleanArchitecture.LeaveManagement.Application.DTOs.LeaveAllocation.Val
         {
             _leavetypeRepository = leavetypeRepository;
 
-            Include(new ILeaveAllocationDtoValidator(_leavetypeRepository));
-
+            RuleFor(p => p.LeaveTypeId)
+                .GreaterThan(0)
+                .MustAsync(async (id, token) =>
+                {
+                    var leaveTypeExists = await _leavetypeRepository.ExistsAsync(id);
+                    return leaveTypeExists;
+                })
+                .WithMessage("{PropertyName} does not exist.");
         }
     }
 }

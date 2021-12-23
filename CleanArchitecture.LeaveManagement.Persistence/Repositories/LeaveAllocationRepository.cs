@@ -17,6 +17,19 @@ namespace CleanArchitecture.LeaveManagement.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task AddAllocations(List<LeaveAllocation> allocations)
+        {
+            await _dbContext.AddRangeAsync(allocations);
+        }
+
+        public async Task<bool> AllocationExists(string userId, int leaveTypeId, int period)
+        {
+            return await _dbContext.LeaveAllocations.AnyAsync(q => q.EmployeeId == userId
+                                                    && q.LeaveTypeId == leaveTypeId
+                                                    && q.Period == period);
+        }
+
         // just showing off how you can have custom methods in your repositories
         public async Task<List<LeaveAllocation>> GetLeaveAllocationsWithDetails()
         {
