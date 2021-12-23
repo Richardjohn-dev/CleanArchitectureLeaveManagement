@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using CleanArchitecture.LeaveManagement.MVC.Contracts;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CleanArchitecture.LeaveManagement.MVC
 {
@@ -27,11 +29,31 @@ namespace CleanArchitecture.LeaveManagement.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor(); // allow it to be injectable into another class
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //.AddCookie(options =>
+            //{
+            //    options.LoginPath = new PathString("/users/login");
+            //});
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie();
+
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+
+
             services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44355"));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<ILeaveTypeService, LeaveTypeService>();
-            services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
+
+            services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+
+            services.AddSingleton<ILocalStorageService, LocalStorageService>();
             services.AddControllersWithViews();
         }
 
@@ -48,6 +70,9 @@ namespace CleanArchitecture.LeaveManagement.MVC
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

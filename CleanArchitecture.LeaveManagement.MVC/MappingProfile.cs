@@ -14,7 +14,7 @@ namespace CleanArchitecture.LeaveManagement.MVC
         {
             CreateMap<CreateLeaveTypeDto, CreateLeaveTypeVM>().ReverseMap();
             CreateMap<LeaveTypeDto, LeaveTypeVM>().ReverseMap();
-
+            CreateMap<RegisterVM, RegistrationRequest>().ReverseMap();
 
 
 
@@ -30,7 +30,7 @@ namespace CleanArchitecture.LeaveManagement.MVC
             //    .ForMember(q => q.EndDate, opt => opt.MapFrom(x => x.EndDate.DateTime))
             //    .ReverseMap();
             //CreateMap<LeaveAllocationDto, LeaveAllocationVM>().ReverseMap();
-            //CreateMap<RegisterVM, RegistrationRequest>().ReverseMap();
+
             //CreateMap<EmployeeVM, Employee>().ReverseMap();
         }
     }

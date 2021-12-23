@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.LeaveManagement.MVC.Contracts;
 using CleanArchitecture.LeaveManagement.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.LeaveManagement.MVC.Controllers
 {
+    [Authorize(Roles = "Administrator")]
+
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeService _leaveTypeService;
