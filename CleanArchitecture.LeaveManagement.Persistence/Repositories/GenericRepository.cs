@@ -19,14 +19,12 @@ namespace CleanArchitecture.LeaveManagement.Persistence.Repositories
         public async Task<T> AddAsync(T entity)
         {
             await _dbContext.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
             return entity;
         }
 
         public async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsAsync(int id)
@@ -48,7 +46,6 @@ namespace CleanArchitecture.LeaveManagement.Persistence.Repositories
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified; // notify ef core change tracker
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

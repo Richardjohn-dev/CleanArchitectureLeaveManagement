@@ -21,25 +21,19 @@ using System.Security.Claims;
 namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Handlers.Commands
 {
     public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveRequestCommand, BaseCommandResponse>
-    {
-        private readonly ILeaveTypeRepository _leaveTypeRepository;
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
-        private readonly ILeaveAllocationRepository _leaveAllocationRepository;
+    {        
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
         public CreateLeaveRequestCommandHandler(
-            ILeaveTypeRepository leaveTypeRepository,
-            ILeaveRequestRepository leaveRequestRepository,
-            ILeaveAllocationRepository leaveAllocationRepository,
+            IUnitOfWork unitOfWork,         
             IEmailSender emailSender,
              IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
-            _leaveTypeRepository = leaveTypeRepository;
-            _leaveRequestRepository = leaveRequestRepository;
-            _leaveAllocationRepository = leaveAllocationRepository;
+            _unitOfWork = unitOfWork;
             _emailSender = emailSender;
             this._httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
@@ -47,7 +41,7 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
         public async Task<BaseCommandResponse> Handle(CreateLeaveRequestCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
-            var validator = new CreateLeaveRequestDtoValidator(_leaveTypeRepository);
+            var validator = new CreateLeaveRequestDtoValidator(_unitOfWork.LeaveTypeRepository);
             var validationResult = await validator.ValidateAsync(request.CreateLeaveRequestDto, cancellationToken);
            
             var userId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(
@@ -59,7 +53,7 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
             // we need to check they are requesting <= what they have allocated
 
             // would be valid if we put this validation earlier.
-            var allocation = await _leaveAllocationRepository.GetUserAllocations(userId, request.CreateLeaveRequestDto.LeaveTypeId);
+            var allocation = await _unitOfWork.LeaveAllocationRepository.GetUserAllocations(userId, request.CreateLeaveRequestDto.LeaveTypeId);
             if (allocation is null)
             {
                 validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure(nameof(request.CreateLeaveRequestDto.LeaveTypeId),
@@ -86,8 +80,9 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.H
             {
                 var leaveRequest = _mapper.Map<LeaveRequest>(request.CreateLeaveRequestDto);
                 leaveRequest.RequestingEmployeeId = userId;
-                leaveRequest = await _leaveRequestRepository.AddAsync(leaveRequest);
-                //await _unitOfWork.Save();
+                leaveRequest = await _unitOfWork.LeaveRequestRepository.AddAsync(leaveRequest);
+               
+                await _unitOfWork.Save();
 
                 response.Success = true;
                 response.Message = "Request Created Successfully";
