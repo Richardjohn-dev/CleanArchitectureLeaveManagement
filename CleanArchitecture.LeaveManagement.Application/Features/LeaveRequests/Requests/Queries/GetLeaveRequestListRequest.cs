@@ -10,6 +10,6 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.R
 {
     public class GetLeaveRequestListRequest : IRequest<List<LeaveRequestListDto>>
     {
-        
+        public bool IsLoggedInUser { get; set; }
     }
 }

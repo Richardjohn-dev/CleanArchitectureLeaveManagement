@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CleanArchitecture.LeaveManagement.Application.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,6 +48,8 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateLeaveTypeDto leaveType)
         {
             var command = new CreateLeaveTypeCommand { CreateLeaveTypeDto = leaveType };
@@ -56,6 +59,10 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // PUT api/<LeaveTypesController>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Put([FromBody] LeaveTypeDto leaveType)
         {
             var command = new UpdateLeaveTypeCommand { LeaveTypeDto = leaveType };
@@ -65,6 +72,10 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // DELETE api/<LeaveTypesController>/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Delete(int id)
         {
             var command = new DeleteLeaveTypeCommand { Id = id };

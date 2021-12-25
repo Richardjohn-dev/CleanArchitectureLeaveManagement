@@ -10,6 +10,6 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocation
 {
     public class GetLeaveAllocationListRequest : IRequest<List<LeaveAllocationDto>>
     {
-        
+        public bool IsLoggedInUser { get; set; }
     }
 }

@@ -11,7 +11,10 @@ namespace CleanArchitecture.LeaveManagement.Application.Profiles
         public MappingProfile()
         {
             CreateMap<LeaveRequest, LeaveRequestDto>().ReverseMap();
-            CreateMap<LeaveRequest, LeaveRequestListDto>().ReverseMap();
+            // auto mapper custom mapping from DateRequested to DateCreated
+            CreateMap<LeaveRequest, LeaveRequestListDto>()
+                .ForMember(dest => dest.DateRequested, opt => opt.MapFrom(src => src.DateCreated))
+                .ReverseMap();
             CreateMap<LeaveRequest, CreateLeaveRequestDto>().ReverseMap();
             CreateMap<LeaveRequest, UpdateLeaveRequestDto>().ReverseMap();
 

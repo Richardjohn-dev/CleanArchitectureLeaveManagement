@@ -3,6 +3,7 @@ using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Re
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocations.Requests.Queries;
 using CleanArchitecture.LeaveManagement.Application.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LeaveAllocationsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,9 +26,9 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // GET: api/<LeaveAllocationsController>
         [HttpGet]
-        public async Task<ActionResult<List<LeaveAllocationDto>>> Get()
+        public async Task<ActionResult<List<LeaveAllocationDto>>> Get(bool isLoggedInUser = false)
         {
-            var leaveAllocations = await _mediator.Send(new GetLeaveAllocationListRequest());
+            var leaveAllocations = await _mediator.Send(new GetLeaveAllocationListRequest() { IsLoggedInUser = isLoggedInUser });
             return Ok(leaveAllocations);
         }
 

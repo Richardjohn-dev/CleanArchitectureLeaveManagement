@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.LeaveManagement.Application.DTOs.LeaveRequest;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveRequests.Requests.Queries;
+using CleanArchitecture.LeaveManagement.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,9 +24,9 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // GET: api/<LeaveRequestsController>
         [HttpGet]
-        public async Task<ActionResult<List<LeaveRequestListDto>>> Get()
+        public async Task<ActionResult<List<LeaveRequestListDto>>> Get(bool isLoggedInUser = false)
         {
-            var leaveRequests = await _mediator.Send(new GetLeaveRequestListRequest());
+            var leaveRequests = await _mediator.Send(new GetLeaveRequestListRequest() { IsLoggedInUser = isLoggedInUser });
             return Ok(leaveRequests);
         }
 
@@ -39,7 +40,7 @@ namespace CleanArchitecture.LeaveManagement.Api.Controllers
 
         // POST api/<LeaveRequestsController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateLeaveRequestDto leaveRequest)
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateLeaveRequestDto leaveRequest)
         {
             var command = new CreateLeaveRequestCommand { CreateLeaveRequestDto = leaveRequest };
             var repsonse = await _mediator.Send(command);
