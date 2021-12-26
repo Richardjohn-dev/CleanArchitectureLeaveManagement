@@ -17,12 +17,12 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
 {
     public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, BaseCommandResponse>
     {
-        private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CreateLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
+        public CreateLeaveTypeCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _leaveTypeRepository = leaveTypeRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -42,7 +42,8 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Hand
             else
             {
                 var leaveType = _mapper.Map<LeaveType>(request.CreateLeaveTypeDto);
-                leaveType = await _leaveTypeRepository.AddAsync(leaveType);
+                leaveType = await _unitOfWork.LeaveTypeRepository.AddAsync(leaveType);
+                await _unitOfWork.Save();
 
                 response.Success = true;
                 response.Message = "Creation Successful";

@@ -6,6 +6,7 @@ using CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Handlers
 using CleanArchitecture.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.LeaveManagement.Application.Profiles;
 using CleanArchitecture.LeaveManagement.Application.Responses;
+using CleanArchitecture.LeaveManagement.Application.UnitTests.Mocks;
 using CleanArchitecture.LM.Application.UnitsTests.Mocks;
 using Moq;
 using Shouldly;
@@ -22,13 +23,13 @@ namespace CleanArchitecture.LM.Application.UnitsTests.LeaveTypes.Commands
     public class CreateLeaveTypeCommandHandlerTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<ILeaveTypeRepository> _mockRepo;
+        private readonly Mock<IUnitOfWork> _mockUow;
         private readonly CreateLeaveTypeDto _createLeaveTypeDto;
         private readonly CreateLeaveTypeCommandHandler _handler;
 
         public CreateLeaveTypeCommandHandlerTests()
         {
-            _mockRepo = MockLeaveTypeRepository.GetLeaveTypeRepository();
+            _mockUow = MockUnitOfWork.GetUnitOfWork();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
@@ -36,7 +37,8 @@ namespace CleanArchitecture.LM.Application.UnitsTests.LeaveTypes.Commands
             });
 
             _mapper = mapperConfig.CreateMapper();
-            _handler = new CreateLeaveTypeCommandHandler(_mockRepo.Object, _mapper);
+            _handler = new CreateLeaveTypeCommandHandler(_mockUow.Object, _mapper);
+
 
             _createLeaveTypeDto = new CreateLeaveTypeDto
             {
@@ -51,7 +53,7 @@ namespace CleanArchitecture.LM.Application.UnitsTests.LeaveTypes.Commands
             var result = await _handler.Handle(
                 new CreateLeaveTypeCommand() { CreateLeaveTypeDto = _createLeaveTypeDto }, CancellationToken.None);
 
-            var leaveTypes = await _mockRepo.Object.GetAllAsync();
+            var leaveTypes = await _mockUow.Object.LeaveTypeRepository.GetAllAsync();
 
             result.ShouldBeOfType<BaseCommandResponse>();
 
@@ -66,7 +68,7 @@ namespace CleanArchitecture.LM.Application.UnitsTests.LeaveTypes.Commands
             var result = await _handler.Handle(
                  new CreateLeaveTypeCommand() { CreateLeaveTypeDto = _createLeaveTypeDto }, CancellationToken.None);
 
-            var leaveTypes = await _mockRepo.Object.GetAllAsync();
+            var leaveTypes = await _mockUow.Object.LeaveTypeRepository.GetAllAsync();
 
             leaveTypes.Count.ShouldBe(3);
 
