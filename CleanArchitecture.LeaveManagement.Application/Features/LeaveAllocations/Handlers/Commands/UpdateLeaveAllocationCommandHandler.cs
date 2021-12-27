@@ -34,6 +34,10 @@ namespace CleanArchitecture.LeaveManagement.Application.Features.LeaveAllocation
                 throw new ValidationException(validationResults);
 
             var leaveAllocation = await _leaveAllocationRepository.GetAsync(request.UpdateLeaveAllocationDto.Id);
+
+            if (leaveAllocation is null)
+                throw new NotFoundException(nameof(leaveAllocation), request.UpdateLeaveAllocationDto.Id);
+
             _mapper.Map(request.UpdateLeaveAllocationDto, leaveAllocation);
 
             await _leaveAllocationRepository.UpdateAsync(leaveAllocation);

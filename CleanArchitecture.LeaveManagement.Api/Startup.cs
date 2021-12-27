@@ -1,3 +1,4 @@
+using CleanArchitecture.LeaveManagement.Api.Middleware;
 using CleanArchitecture.LeaveManagement.Application;
 using CleanArchitecture.LeaveManagement.Identity;
 using CleanArchitecture.LeaveManagement.Infrastructure;
@@ -58,6 +59,8 @@ namespace CleanArchitecture.LeaveManagement.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseAuthentication();
 
