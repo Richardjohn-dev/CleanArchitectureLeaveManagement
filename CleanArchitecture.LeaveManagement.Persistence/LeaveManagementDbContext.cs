@@ -21,20 +21,6 @@ namespace CleanArchitecture.LeaveManagement.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LeaveManagementDbContext).Assembly);
         }
 
-        // anytime savechanges ran this will run
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            foreach (var entry in ChangeTracker.Entries<BaseDomainEntity>())
-            {
-                entry.Entity.LastModifiedDate = DateTime.UtcNow;
-
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.DateCreated = DateTime.UtcNow;
-                }
-            }
-            return base.SaveChangesAsync(cancellationToken);    
-        }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
